@@ -97,7 +97,7 @@ const Home = () => {
           <div className="information">
             <p>Uma série ABC</p>
             <p>7.7</p>
-            <p>2017 - Até o Momento</p>
+            <p>2017 - Até o Commit</p>
           </div>
           <Button caminhoLink="/home" texto="Mais Detalhes" />
         </section>

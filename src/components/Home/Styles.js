@@ -1,28 +1,27 @@
 import styled from "styled-components";
 
 export const Main = styled.main`
-
-  main{
-    min-height:100vh;
-    width:100vw;
+  main {
+    min-height: 100vh;
+    width: 100vw;
     background: linear-gradient(
-      180deg,
-      rgba(8, 15, 26, 0) 0%,
-      rgba(8, 15, 26, 0.376) 38.02%,
-      rgba(8, 15, 26, 0.72) 72.4%,
-      rgba(8, 15, 26, 0.8) 100%
-    ),
-    rgba(29, 51, 84, 0.3)
-      linear-gradient(
-        123.91deg,
-        rgba(11, 144, 173, 0.5) 29.28%,
-        rgba(140, 23, 181, 0.5) 68.34%
-      );
+        180deg,
+        rgba(8, 15, 26, 0) 0%,
+        rgba(8, 15, 26, 0.376) 38.02%,
+        rgba(8, 15, 26, 0.72) 72.4%,
+        rgba(8, 15, 26, 0.8) 100%
+      ),
+      rgba(29, 51, 84, 0.3)
+        linear-gradient(
+          123.91deg,
+          rgba(11, 144, 173, 0.5) 29.28%,
+          rgba(140, 23, 181, 0.5) 68.34%
+        );
   }
   background-image: url(${(props) => props.imgCarrousel});
   background-size: cover;
-  background-position:left;
-  background-repeat:no-repeat;
+  background-position:center;
+  background-repeat: no-repeat;
 
   .animeMenuDropDown {
     position: absolute;
@@ -83,7 +82,8 @@ export const Main = styled.main`
 
   .titleSerie {
     margin-left: 80px;
-    margin-top: 110px;
+    margin-top: 180px;
+    height: 240px;
     h1 {
       font-family: "Montserrat";
       font-style: normal;
@@ -102,6 +102,7 @@ export const Main = styled.main`
       font-size: 12px;
       line-height: 16px;
       letter-spacing: 0.0025em;
+      align-items:center;
       color: #ffffff;
 
       p {
@@ -111,6 +112,19 @@ export const Main = styled.main`
       p:nth-child(2) {
         margin-left: 16px;
         margin-right: 16px;
+      }
+    }
+    #pIcon {
+      display:flex;
+      align-items:center ;
+      background: #404040;
+      border-radius: 4px;
+      width:40px;
+      height:19px;
+      img{
+        width:14px;
+        height:16px;
+        margin-right:7px;
       }
     }
   }
@@ -135,6 +149,8 @@ export const Main = styled.main`
         list-style-type: none;
         overflow: hidden;
         margin-right: 20px;
+        max-width:100vw;
+        width:100%;
         li {
           position: relative;
           cursor: pointer;
@@ -166,6 +182,10 @@ export const Main = styled.main`
               rgba(140, 23, 181, 0.5) 68.34%
             );
             backdrop-filter: blur(2px);
+
+            h3 {
+              display: none;
+            }
           }
         }
         li + li {

@@ -6,8 +6,9 @@ import arrow from "../../assets/arrow.png";
 import { CgSearch } from "react-icons/cg";
 import { HiChevronDown } from "react-icons/hi";
 import { GlobalStorage } from "../../Hook/GlobalContext";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({closeMenu}) => {
   const [inputOpen, setInputOpen] = React.useState(false);
   const { valueInputSearch, setValueInputSearch } =
     React.useContext(GlobalStorage);
@@ -21,10 +22,10 @@ const Header = () => {
       <section className="leftSection">
         <img src={starFound} alt="Logo estrela site" />
         <img src={arrow} className="arrow" alt="Logo estrela site" />
-        <p>Voltar para o Menu Principal</p>
+        <Link to='/home'>Voltar para o Menu Principal</Link>
       </section>
       <section className="rightSection">
-        <div className={`${inputOpen ? "animeDiv" : "divInput"}`}>
+        <div onClick={closeMenu} className={`${inputOpen ? "animeDiv" : "divInput"}`}>
           <label for="inputSearch" onClick={abrirInput}>
             <CgSearch className={`${inputOpen ? "animeSearch" : "search"}`} />
           </label>

@@ -22,13 +22,13 @@ export const Header = styled.header`
       margin-right: 8.5px;
     }
 
-    p {
+    a {
       font-family: "Nunito";
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 19px;
-
+      text-decoration:none;
       letter-spacing: 0.02em;
 
       color: #ffffff;
@@ -51,17 +51,15 @@ export const Header = styled.header`
     }
 
     .divInput {
-      height: 34px;
-      width: 20px;
+      height: 24px;
+      width: 24px;
       transition: 0.5s;
-
       label {
         cursor: pointer;
         .search {
           width: 20px;
           height: 20px;
           margin-left: 5px;
-          margin-bottom: -15px;
           color: #fff;
         }
       }
@@ -72,7 +70,7 @@ export const Header = styled.header`
       transition: 0.5s;
       border-radius: 4px;
       background-color: red;
-      height: 34px;
+      height: 24px;
       display: flex;
       align-items: center;
       background-color: #fff;
@@ -90,9 +88,8 @@ export const Header = styled.header`
           cursor: pointer;
           width: 20px;
           height: 20px;
+          padding-top:2px;
           margin-left: 5px;
-          margin-bottom: -5px;
-
           color: #ae10e6;
         }
       }

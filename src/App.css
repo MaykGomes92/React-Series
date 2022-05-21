@@ -32,7 +32,6 @@ body{
 .animeDiv {
     animation: animeDiv 0.5s forwards;
     opacity: 0;
-    transform: translateY(50px);
     overflow: hidden;
 }
 

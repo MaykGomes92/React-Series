@@ -4,34 +4,47 @@ import Header from "../Header/Header";
 import Button from "../Button/Button";
 import { GlobalStorage } from "../../Hook/GlobalContext";
 import semFoto from "../../assets/sem_foto.png";
-
+import iconStar from "../../assets/iconStar.svg";
+import { MOVIES_MENU, RETORNAR_DETAILS } from "../../API";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 
 const Home = () => {
+  const [textTitle, setTextTitle] = React.useState([]);
+  const [nameCompanie, setNameCompanie] = React.useState("Paramount");
   const [inputWork, setInputWork] = React.useState(true);
   const [listaApi, setListaApi] = React.useState([]);
   const [imgCarrousel, setImgCarrousel] = React.useState(
-    "https://static.tvmaze.com/uploads/images/original_untouched/407/1019370.jpg"
+    "https://image.tmdb.org/t/p/w500/neMZH82Stu91d3iqvLdNQfqPPyl.jpg"
   );
   const {
     valueInputSearch,
     listaFetchContext,
     retornarListaApi,
+    setValueInputSearch,
     setSerieEscolhida,
   } = React.useContext(GlobalStorage);
 
   const refCarrousel = React.useRef(null);
+
+  // Pegando informações de acordo em qual card do carrousel o mouse está.
   function ativarButton() {
     refCarrousel.current.childNodes.forEach((element, index) => {
       element.addEventListener("mouseover", () => {
         element.children[0].children[0].style.display = "block";
         element.children[0].style.display = "block";
         setImgCarrousel(element.children[1].src);
+        setTextTitle([
+          element.children[0].children[1].innerText,
+          element.children[0].children[2].innerText,
+          element.children[0].children[3].innerText,
+          element.children[0].children[4].innerText,
+        ]);
       });
     });
   }
 
+  // Desativando o botão ''mais detalhes'' do carrousel.
   function desativarButton() {
     refCarrousel.current.childNodes.forEach((element, index) => {
       element.addEventListener("mouseout", () => {
@@ -41,21 +54,27 @@ const Home = () => {
     });
   }
 
+  // Pegando o nome do estudio do filme do card.
   React.useEffect(() => {
-    retornarListaApi("Moon");
-  }, []);
+    const { url } = RETORNAR_DETAILS(textTitle[3]);
+    retornarListaApi();
+    async function moviesDetails() {
+      const jsonList = await fetch(url).then((res) => res.json());
+      const detailsCompanie = await jsonList.production_companies.map(
+        (res) => res
+      );
+      setNameCompanie(detailsCompanie[0].name);
+    }
+    moviesDetails();
+  }, [textTitle]);
 
+  // Retorando a lista de filmes do menu search.
   React.useEffect(() => {
-    //https://api.tvmaze.com/singlesearch/shows?q=girls&embed=episodes para retornar episódios, com name, image, numero, etc....
+    const { url } = MOVIES_MENU(valueInputSearch);
     ativarButton();
-
-    async function retornarListaApi() {
-      const jsonList = await fetch(
-        `https://api.tvmaze.com/search/shows?q=${
-          valueInputSearch || "the good"
-        }`
-      ).then((response) => response.json());
-      setListaApi(jsonList.map((response) => response.show));
+    async function retornarListaMenuSearch() {
+      const jsonList = await fetch(url).then((response) => response.json());
+      setListaApi(jsonList.results);
 
       if (valueInputSearch === "") {
         setInputWork(false);
@@ -63,9 +82,10 @@ const Home = () => {
         setInputWork(true);
       }
     }
-    retornarListaApi();
+    retornarListaMenuSearch();
   }, [valueInputSearch, inputWork]);
 
+  // Funcionamento do carrousel
   function leftCarrousel() {
     refCarrousel.current.scrollLeft -= refCarrousel.current.offsetWidth;
   }
@@ -73,36 +93,49 @@ const Home = () => {
     refCarrousel.current.scrollLeft += refCarrousel.current.offsetWidth;
   }
 
+  function closeMenu() {
+    setValueInputSearch("");
+  }
+
   return (
     <S.Main inputWork={inputWork} imgCarrousel={imgCarrousel}>
-        <main>
-        <Header />
+      <main>
+        <Header closeMenu={closeMenu} />
         <ul className="animeMenuDropDown animeDown">
           {listaApi &&
             listaApi.map((show) => (
               <li key={show.id}>
                 <img
-                  onClick={({ target }) => setSerieEscolhida(show.name)}
-                  src={show.image === null ? semFoto : show.image.medium}
+                  onClick={({ target }) => setSerieEscolhida(show.title)}
+                  src={`https://image.tmdb.org/t/p/w500${
+                    show.poster_path === null ? semFoto : show.poster_path
+                  }`}
                   alt="Foto da série"
                 />
-                <p onClick={({ target }) => setSerieEscolhida(show.name)}>
-                  {show.name}
+                <p onClick={({ target }) => setSerieEscolhida(show.title)}>
+                  {show.title}
                 </p>
               </li>
             ))}
         </ul>
         <section className="titleSerie">
-          <h1>THE MOON KNIGHT</h1>
+          <h1>{textTitle[1] === undefined ? "The Lost City" : textTitle[1]}</h1>
           <div className="information">
-            <p>Uma série ABC</p>
-            <p>7.7</p>
-            <p>2017 - Até o Commit</p>
+            <p>{nameCompanie}</p>
+            <p id="pIcon">
+              <img src={iconStar} alt="icone de uma estrela" />
+              {textTitle[0] === undefined ? "6.7" : textTitle[0]}
+            </p>
+            <p>
+              {textTitle[2] === undefined
+                ? "2022"
+                : textTitle[2].substring(0, 4)}
+            </p>
           </div>
           <Button caminhoLink="/home" texto="Mais Detalhes" />
         </section>
 
-        <section className="sectionDown">
+        <section onClick={closeMenu} className="sectionDown">
           <h2>Mais Séries</h2>
           <div className="carrouselInformation">
             <ul ref={refCarrousel}>
@@ -111,10 +144,17 @@ const Home = () => {
                   <li key={show.id} onMouseOut={desativarButton}>
                     <div className="backButton animeDiv">
                       <Button caminhoLink="/home" texto="Mais detalhes +" />
+
+                      <h3>{show.vote_average}</h3>
+                      <h3>{show.title}</h3>
+                      <h3>{show.release_date}</h3>
+                      <h3>{show.id}</h3>
                     </div>
                     <img
                       className="tes"
-                      src={show.image === null ? semFoto : show.image.original}
+                      src={`https://image.tmdb.org/t/p/w500${
+                        show.poster_path === null ? semFoto : show.poster_path
+                      }`}
                       alt="Foto da série"
                     />
                   </li>
@@ -126,8 +166,8 @@ const Home = () => {
             <BsArrowRightCircleFill onClick={rightCarrousel} />
           </div>
         </section>
-    </main>
-      </S.Main>
+      </main>
+    </S.Main>
   );
 };
 

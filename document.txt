@@ -1,3 +1,14 @@
-Ajeitar imagem de fundo, ve se os outros cards tão retornando as 'originais também'
-De acordo com o mouse em cima,mudar o TITULO da série, ta travado em ''THE MOON KNIGHT''
-também o ano, emissora, etc...
+https://developers.themoviedb.org/3/movies/get-movie-details
+
+Criar a nova home, que é dependendo de qual série clicar, levar pra otura page, com uma sinopse da série, episódio, temporadas, etc...
+Fazer isso com Router a partir da home principal
+Podendo testar com useParamns, Navigate...
+
+
+Podendo também pegar o id de qual card/série clicou, pra fazer o fetch da série na próxima página
+Podendo ver se consegue pegar o link com useContext.
+
+Refatorar a page home, podendo criar várias funções no arquivo api, que vai mudando só os endPointer
+
+
+function ID_API, MOVIE_API, etc....

@@ -9,7 +9,7 @@ export const UserStorage = ({ children }) => {
 
   async function retornarListaApi(props) {
     const jsonList = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/popular?api_key=${ API_KEY }&language=en-US&page=1`
     ).then((response) => response.json());
     setListaFetchContext(jsonList.results);
   }

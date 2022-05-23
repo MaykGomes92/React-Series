@@ -8,6 +8,7 @@ import iconStar from "../../assets/iconStar.svg";
 import { MOVIES_MENU, RETORNAR_DETAILS } from "../../API";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [textTitle, setTextTitle] = React.useState([]);
@@ -15,7 +16,7 @@ const Home = () => {
   const [inputWork, setInputWork] = React.useState(true);
   const [listaApi, setListaApi] = React.useState([]);
   const [imgCarrousel, setImgCarrousel] = React.useState(
-    "https://image.tmdb.org/t/p/w500/neMZH82Stu91d3iqvLdNQfqPPyl.jpg"
+    "https://image.tmdb.org/t/p/w500/1qpUk27LVI9UoTS7S0EixUBj5aR.jpg"
   );
   const {
     valueInputSearch,
@@ -75,7 +76,6 @@ const Home = () => {
     async function retornarListaMenuSearch() {
       const jsonList = await fetch(url).then((response) => response.json());
       setListaApi(jsonList.results);
-
       if (valueInputSearch === "") {
         setInputWork(false);
       } else {
@@ -84,7 +84,6 @@ const Home = () => {
     }
     retornarListaMenuSearch();
   }, [valueInputSearch, inputWork]);
-
   // Funcionamento do carrousel
   function leftCarrousel() {
     refCarrousel.current.scrollLeft -= refCarrousel.current.offsetWidth;
@@ -105,26 +104,28 @@ const Home = () => {
           {listaApi &&
             listaApi.map((show) => (
               <li key={show.id}>
-                <img
-                  onClick={({ target }) => setSerieEscolhida(show.title)}
-                  src={`https://image.tmdb.org/t/p/w500${
-                    show.poster_path === null ? semFoto : show.poster_path
-                  }`}
-                  alt="Foto da série"
-                />
-                <p onClick={({ target }) => setSerieEscolhida(show.title)}>
-                  {show.title}
-                </p>
+                <Link to="/home/movie">
+                  <img
+                    onClick={({ target }) => setSerieEscolhida(show.id)}
+                    src={`https://image.tmdb.org/t/p/w500${
+                      show.poster_path === null ? semFoto : show.poster_path
+                    }`}
+                    alt="Foto da série"
+                  />
+                  <p onClick={({ target }) => setSerieEscolhida(show.id)}>
+                    {show.name}
+                  </p>
+                </Link>
               </li>
             ))}
         </ul>
         <section className="titleSerie">
-          <h1>{textTitle[1] === undefined ? "The Lost City" : textTitle[1]}</h1>
+          <h1>{textTitle[1] === undefined ? "HALO" : textTitle[1]}</h1>
           <div className="information">
             <p>{nameCompanie}</p>
             <p id="pIcon">
               <img src={iconStar} alt="icone de uma estrela" />
-              {textTitle[0] === undefined ? "6.7" : textTitle[0]}
+              {textTitle[0] === undefined ? "8.6" : textTitle[0]}
             </p>
             <p>
               {textTitle[2] === undefined
@@ -142,12 +143,17 @@ const Home = () => {
               {listaFetchContext &&
                 listaFetchContext.map((show) => (
                   <li key={show.id} onMouseOut={desativarButton}>
-                    <div className="backButton animeDiv">
-                      <Button caminhoLink="/home" texto="Mais detalhes +" />
-
+                    <div
+                      onClick={({ target }) => setSerieEscolhida(show.id)}
+                      className="backButton animeDiv"
+                    >
+                      <Button
+                        caminhoLink="/home/movie"
+                        texto="Mais detalhes +"
+                      />
                       <h3>{show.vote_average}</h3>
-                      <h3>{show.title}</h3>
-                      <h3>{show.release_date}</h3>
+                      <h3>{show.name}</h3>
+                      <h3>{show.first_air_date}</h3>
                       <h3>{show.id}</h3>
                     </div>
                     <img

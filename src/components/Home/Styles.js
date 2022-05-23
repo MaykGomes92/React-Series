@@ -49,18 +49,22 @@ export const Main = styled.main`
     }
 
     li {
-      min-width: 300px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      list-style: none;
-      padding: 5px 0px;
-      font-family: "Nunito";
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      padding: 15px 20px;
+      a{
+        min-width: 300px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        list-style: none;
+        padding: 5px 0px;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 15px 20px;
+        text-decoration:none;
+        color:#fff;
+      }
       p {
         cursor: pointer;
         width: calc(250px - 92px);

@@ -74,6 +74,41 @@ export const MainHome2 = styled.main`
         margin-top: 16px;
         letter-spacing: 0.0025em;   
         color: #ffffff;
+      }      
+    }
+    .containerDetailsSeries{
+      margin-top:40px;
+      margin-left:81px;
+      ul{
+        display:flex;
+        margin-top:16px;
+        color: #fff;
+        list-style-type:none;
+
+        
+        #negativo{
+          background-color:transparent;
+        }
+
+        #positivo{
+          border-radius: 4px;
+          background-image: linear-gradient(
+            -39.31deg,
+            rgba(140, 23, 181, 0.5),
+            rgba(11, 144, 173, 0.5),
+            #560bad,
+            #b5179e
+            ) ;
+            background-size: 300%;
+            background-position: left;
+            background-color: red;
+          }
+          
+        }
       }
-  }
+
+      h1{
+        color:#fff;
+      }
+  
 `;

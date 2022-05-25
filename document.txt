@@ -12,3 +12,14 @@ Refatorar a page home, podendo criar várias funções no arquivo api, que vai m
 
 
 function ID_API, MOVIE_API, etc....
+
+
+
+
+
+
+
+Lógica do Button Resolvida
+Deixar sempre o button ' 1 temporada ' selecionado.
+Algumas séries como HALO, tem um button '0 temporada'
+Fazer o menuSearch na rota homeMovie também.

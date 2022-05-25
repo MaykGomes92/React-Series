@@ -4,29 +4,42 @@ import { GlobalStorage } from "../../../Hook/GlobalContext";
 import Header from "../../Header/Header";
 import iconStar from "../../../assets/iconStar.svg";
 import { RETORNAR_DETAILS } from "../../../API";
+import Loading from "../../Loading/Loading";
+import ButtonsTemp from "../ButtonsTemp/ButtonsTemp";
 
 const HomeMovie = () => {
-  const { serieEscolhida, retornarListaApi } = React.useContext(GlobalStorage);
+  const { retornarListaApi, setValueInputSearch } =
+    React.useContext(GlobalStorage);
+
   const [detailsMovie, setDetailsMovie] = React.useState([]);
-  const [nameCompanie, setNameCompanie] = React.useState();
-  const [generoMovie, setGeneroMovie] = React.useState();
+  const [loading, setLoading] = React.useState(false);
+  const [toggleTemp, setToggleTemp] = React.useState("");
+
+  function toggleTab({ target }) {
+    setToggleTemp(target.classList[2]);
+  }
 
   React.useEffect(() => {
-    retornarListaApi()
-    const { url } = RETORNAR_DETAILS(serieEscolhida);
+    const idLocal = window.localStorage.getItem("id");
+    const { url } = RETORNAR_DETAILS(idLocal);
+    retornarListaApi();
+
     async function detailsMovies() {
       const jsonList = await fetch(url).then((res) => res.json());
       setDetailsMovie(jsonList);
-      const detailsCompanie = await jsonList.production_companies.map(
-        (res) => res
-        );
-        const generoMovie = await jsonList.genres.map((res) => res);
-      setGeneroMovie(generoMovie);
-      setNameCompanie(detailsCompanie[0].name);
     }
+
+    setTimeout(() => {
+      setLoading(true);
+    }, 2000);
+
     detailsMovies();
-  }, []);
-  
+  }, [detailsMovie.length]);
+  setValueInputSearch("");
+
+  if (!loading) {
+    return <Loading />;
+  }
   return (
     <S.MainHome2
       backImage={
@@ -39,12 +52,12 @@ const HomeMovie = () => {
         <Header />
         <section className="informationMovie">
           <h1>
-            {detailsMovie.name === undefined
-              ? "Halo"
-              : detailsMovie.name}
+            {detailsMovie.name === undefined ? "Halo" : detailsMovie.name}
           </h1>
           <div className="subInformation">
-            <p>{nameCompanie === undefined ? "Amblin Television" : nameCompanie}</p>
+            <p>
+              {detailsMovie.production_companies.length === 0 ? "Amblin Television" : detailsMovie.production_companies[0].name}
+            </p>
             <p>
               <img src={iconStar} alt="icone de estrela" />
               {detailsMovie.vote_average === undefined
@@ -58,13 +71,38 @@ const HomeMovie = () => {
             </p>
           </div>
           <h2>
-            {generoMovie === undefined
+            {detailsMovie.genres[0].name === undefined
               ? "Action & Adventure"
-              : generoMovie[0].name}
+              : detailsMovie.genres[0].name}
           </h2>
           <div className="containerSinopse">
-          <p className="sinopse">{detailsMovie.overview === undefined ? 'Depicting an epic 26th-century conflict between humanity and an alien threat known as the Covenant, the series weaves deeply drawn personal stories with action, adventure and a richly imagined vision of the future.' : detailsMovie.overview}</p>
+            <p className="sinopse">
+              {detailsMovie.overview === undefined
+                ? "Depicting an epic 26th-century conflict between humanity and an alien threat known as the Covenant, the series weaves deeply drawn personal stories with action, adventure and a richly imagined vision of the future."
+                : detailsMovie.overview}
+            </p>
           </div>
+        </section>
+
+        <section className="containerDetailsSeries">
+          <h1>Temporadas:</h1>
+          <ul>
+            {detailsMovie &&
+              detailsMovie.seasons.map((res) => (
+                <li key={res.id}>
+                  <ButtonsTemp
+                    classTest={res.id}
+                    idNameTeste={toggleTemp == res.id ? "positivo" : "negativo"}
+                    toggleTab={toggleTab}
+                    title={
+                      res.air_date !== null
+                        ? res.season_number + " Temporada"
+                        : ""
+                    }
+                  />
+                </li>
+              ))}
+          </ul>
         </section>
       </main>
     </S.MainHome2>

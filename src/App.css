@@ -43,3 +43,20 @@ body{
     overflow: initial;
     }
 }
+
+.animationLoading{
+    animation: animationLoading 1.5s linear infinite;
+}
+
+
+@keyframes animationLoading{
+    to{
+        transform: rotateZ(360deg);
+        border-left-color: #00ffff;
+        border-right-color: #00ffff;
+    }from{
+        transform: rotateZ(0deg);
+        border-left-color: #ff0084;
+        border-right-color: #ff0084;
+    }
+}

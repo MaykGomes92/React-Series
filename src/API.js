@@ -12,6 +12,8 @@ export function MOVIES_MENU(name) {
     url: `${API_URL}search/tv?api_key=${API_KEY}&page=1&query=${name}`,
   };
 }
+
+
 /*
 01 = Vai retornar nome do episódio, numero do episódio, sinopse, foto, season do episódio, temporada. Você vai ter que passar sua key, NUMERO da season que você quer e id da série.
 https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}?api_key=<<api_key>>&language=en-US 

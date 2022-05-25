@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [textTitle, setTextTitle] = React.useState([]);
-  const [nameCompanie, setNameCompanie] = React.useState("Paramount");
+  const [nameCompanie, setNameCompanie] = React.useState("");
   const [inputWork, setInputWork] = React.useState(true);
   const [listaApi, setListaApi] = React.useState([]);
   const [imgCarrousel, setImgCarrousel] = React.useState(
@@ -25,32 +25,31 @@ const Home = () => {
     setValueInputSearch,
     setSerieEscolhida,
   } = React.useContext(GlobalStorage);
-
   const refCarrousel = React.useRef(null);
-
+  
   // Pegando informações de acordo em qual card do carrousel o mouse está.
   function ativarButton() {
+    
     refCarrousel.current.childNodes.forEach((element, index) => {
       element.addEventListener("mouseover", () => {
+        element.children[0].children[0].children[0].style.display = "block";
         element.children[0].children[0].style.display = "block";
-        element.children[0].style.display = "block";
         setImgCarrousel(element.children[1].src);
         setTextTitle([
-          element.children[0].children[1].innerText,
-          element.children[0].children[2].innerText,
-          element.children[0].children[3].innerText,
-          element.children[0].children[4].innerText,
+          element.children[0].children[0].children[1].innerText,
+          element.children[0].children[0].children[2].innerText,
+          element.children[0].children[0].children[3].innerText,
+          element.children[0].children[0].children[4].innerText,
         ]);
       });
     });
-  }
-
+  }  
   // Desativando o botão ''mais detalhes'' do carrousel.
   function desativarButton() {
     refCarrousel.current.childNodes.forEach((element, index) => {
       element.addEventListener("mouseout", () => {
+        element.children[0].children[0].children[0].style.display = "none";
         element.children[0].children[0].style.display = "none";
-        element.children[0].style.display = "none";
       });
     });
   }
@@ -63,12 +62,12 @@ const Home = () => {
       const jsonList = await fetch(url).then((res) => res.json());
       const detailsCompanie = await jsonList.production_companies.map(
         (res) => res
-      );
-      setNameCompanie(detailsCompanie[0].name);
-    }
-    moviesDetails();
-  }, [textTitle]);
-
+        );
+        setNameCompanie(detailsCompanie[0].name === undefined ? 'Paramount' : detailsCompanie[0].name);
+      }
+      moviesDetails();
+    }, [textTitle]);
+    
   // Retorando a lista de filmes do menu search.
   React.useEffect(() => {
     const { url } = MOVIES_MENU(valueInputSearch);
@@ -95,7 +94,7 @@ const Home = () => {
   function closeMenu() {
     setValueInputSearch("");
   }
-
+  
   return (
     <S.Main inputWork={inputWork} imgCarrousel={imgCarrousel}>
       <main>
@@ -106,13 +105,21 @@ const Home = () => {
               <li key={show.id}>
                 <Link to="/home/movie">
                   <img
-                    onClick={({ target }) => setSerieEscolhida(show.id)}
+                    onClick={({ target }) => {
+                      setSerieEscolhida(show.id);
+                      window.localStorage.setItem("id", show.id);
+                    }}
                     src={`https://image.tmdb.org/t/p/w500${
                       show.poster_path === null ? semFoto : show.poster_path
                     }`}
                     alt="Foto da série"
                   />
-                  <p onClick={({ target }) => setSerieEscolhida(show.id)}>
+                  <p
+                    onClick={({ target }) => {
+                      setSerieEscolhida(show.id);
+                      window.localStorage.setItem("id", show.id);
+                    }}
+                  >
                     {show.name}
                   </p>
                 </Link>
@@ -122,7 +129,7 @@ const Home = () => {
         <section className="titleSerie">
           <h1>{textTitle[1] === undefined ? "HALO" : textTitle[1]}</h1>
           <div className="information">
-            <p>{nameCompanie}</p>
+            <p>{nameCompanie === '' ? 'Paramount' : nameCompanie}</p>
             <p id="pIcon">
               <img src={iconStar} alt="icone de uma estrela" />
               {textTitle[0] === undefined ? "8.6" : textTitle[0]}
@@ -143,19 +150,24 @@ const Home = () => {
               {listaFetchContext &&
                 listaFetchContext.map((show) => (
                   <li key={show.id} onMouseOut={desativarButton}>
-                    <div
-                      onClick={({ target }) => setSerieEscolhida(show.id)}
-                      className="backButton animeDiv"
-                    >
-                      <Button
-                        caminhoLink="/home/movie"
-                        texto="Mais detalhes +"
-                      />
-                      <h3>{show.vote_average}</h3>
-                      <h3>{show.name}</h3>
-                      <h3>{show.first_air_date}</h3>
-                      <h3>{show.id}</h3>
-                    </div>
+                    <Link to="/home/movie">
+                      <div
+                        onClick={({ target }) => {
+                          setSerieEscolhida(show.id);
+                          window.localStorage.setItem("id", show.id);
+                        }}
+                        className="backButton animeDiv"
+                      >
+                        <Button
+                          caminhoLink="/home/movie"
+                          texto="Mais detalhes +"
+                        />
+                        <h3>{show.vote_average}</h3>
+                        <h3>{show.name}</h3>
+                        <h3>{show.first_air_date}</h3>
+                        <h3>{show.id}</h3>
+                      </div>
+                    </Link>
                     <img
                       className="tes"
                       src={`https://image.tmdb.org/t/p/w500${

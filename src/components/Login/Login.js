@@ -24,7 +24,7 @@ const Login = () => {
         <Label label="Password" type="password" />
 
         <div className="buttons">
-          <Button texto="Acessar Conteúdos" caminhoLink="home"></Button>
+          <Button texto="Acessar Conteúdos" caminhoLink="/home"></Button>
           <button className="esqueciSenha">Esqueci minha senha</button>
         </div>
 

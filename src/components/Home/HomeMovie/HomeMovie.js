@@ -3,7 +3,7 @@ import * as S from "./Styles";
 import { GlobalStorage } from "../../../Hook/GlobalContext";
 import Header from "../../Header/Header";
 import iconStar from "../../../assets/iconStar.svg";
-import { RETORNAR_DETAILS } from "../../../API";
+import { EPSODIOS_SEASON, RETORNAR_DETAILS } from "../../../API";
 import Loading from "../../Loading/Loading";
 import ButtonsTemp from "../ButtonsTemp/ButtonsTemp";
 
@@ -12,13 +12,19 @@ const HomeMovie = () => {
     React.useContext(GlobalStorage);
 
   const [detailsMovie, setDetailsMovie] = React.useState([]);
+  const [detailsEpisodios, setDetailsEpisodios] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [idFirstTemp, setIdFirstTemp] = React.useState("");
   const [toggleTemp, setToggleTemp] = React.useState("");
+  const [numberTemp, setNumberTemp] = React.useState(1)
 
   function toggleTab({ target }) {
     setToggleTemp(target.classList[2]);
+    setNumberTemp(target.innerText.substring(0,2))
   }
 
+
+  // Pegando detalhes da série
   React.useEffect(() => {
     const idLocal = window.localStorage.getItem("id");
     const { url } = RETORNAR_DETAILS(idLocal);
@@ -27,6 +33,12 @@ const HomeMovie = () => {
     async function detailsMovies() {
       const jsonList = await fetch(url).then((res) => res.json());
       setDetailsMovie(jsonList);
+      setIdFirstTemp(
+        jsonList.seasons[0].air_date === null
+          ? jsonList.seasons[1].id
+          : jsonList.seasons[0].id
+      );
+      setToggleTemp(idFirstTemp);
     }
 
     setTimeout(() => {
@@ -36,6 +48,21 @@ const HomeMovie = () => {
     detailsMovies();
   }, [detailsMovie.length]);
   setValueInputSearch("");
+
+
+  // Pegando detalhes dos episodios
+  React.useEffect(() => {
+    const idLocal = window.localStorage.getItem("id");
+    const {url} = EPSODIOS_SEASON(idLocal,numberTemp)
+
+    async function detailsSerieSeason(){
+      const jsonList = await fetch(url).then(res => res.json())
+      setDetailsEpisodios(jsonList.episodes)
+  }
+
+  detailsSerieSeason()
+  },[numberTemp])
+
 
   if (!loading) {
     return <Loading />;
@@ -56,7 +83,9 @@ const HomeMovie = () => {
           </h1>
           <div className="subInformation">
             <p>
-              {detailsMovie.production_companies.length === 0 ? "Amblin Television" : detailsMovie.production_companies[0].name}
+              {detailsMovie.production_companies.length === 0
+                ? "Amblin Television"
+                : detailsMovie.production_companies[0].name}
             </p>
             <p>
               <img src={iconStar} alt="icone de estrela" />
@@ -103,6 +132,20 @@ const HomeMovie = () => {
                 </li>
               ))}
           </ul>
+        </section>
+
+        <section className="containerDetailsEpisodios">
+                    <ul>
+                      {detailsEpisodios && 
+                        detailsEpisodios.map((res) => (
+                          <li>
+                            <h1>{res.episode_number}</h1>
+                            <img src={`https://image.tmdb.org/t/p/w500${res.still_path}`} alt='foto do episódio'/>
+                            <h2>{res.name} <p>{res.overview}</p></h2>
+                          </li>
+                        ))
+                      }
+                    </ul>
         </section>
       </main>
     </S.MainHome2>

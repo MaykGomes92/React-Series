@@ -17,10 +17,11 @@ export const MainHome2 = styled.main`
           rgba(11, 144, 173, 0.5) 29.28%,
           rgba(140, 23, 181, 0.5) 68.34%
         );
+    margin: auto;
   }
-  background-image: url(${(props) => 'https://image.tmdb.org/t/p/w500/'+props.backImage});
+  background-image: url(${(props) =>    "https://image.tmdb.org/t/p/w500/" + props.backImage});
   background-size: cover;
-  background-position:center;
+  background-position: center;
   background-repeat: no-repeat;
 
   .informationMovie {
@@ -63,52 +64,122 @@ export const MainHome2 = styled.main`
       color: #ffffff;
     }
 
-      .sinopse {
-        width: 550px;
-        max-height: 130px;
+    .sinopse {
+      width: 550px;
+      max-height: 130px;
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 160%;
+      margin-top: 16px;
+      letter-spacing: 0.0025em;
+      color: #ffffff;
+    }
+  }
+  .containerDetailsSeries {
+    margin-top: 40px;
+    margin-left: 81px;
+    ul {
+      display: flex;
+      margin-top: 16px;
+      list-style-type: none;
+      align-items: center;
+      justify-content: flex-start;
+      width: 800px;
+      #negativo {
+        background-color: transparent;
         font-family: "Nunito";
         font-style: normal;
         font-weight: 400;
-        font-size: 16px;
-        line-height: 160%;
-        margin-top: 16px;
-        letter-spacing: 0.0025em;   
+        font-size: 10px;
+        line-height: 14px;
+        text-align: center;
+        letter-spacing: 0.02em;
         color: #ffffff;
-      }      
+      }
+
+      #positivo {
+        border-radius: 20px;
+        background-image: linear-gradient(
+          -39.31deg,
+          rgba(140, 23, 181, 0.5),
+          rgba(11, 144, 173, 0.5),
+          #560bad,
+          #b5179e
+        );
+        width: 150px;
+        background-size: 300%;
+        background-position: left;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 14px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+      }
     }
-    .containerDetailsSeries{
-      margin-top:40px;
-      margin-left:81px;
-      ul{
-        display:flex;
-        margin-top:16px;
-        color: #fff;
-        list-style-type:none;
+    h1 {
+      color: #fff;
+    }
+  }
 
-        
-        #negativo{
-          background-color:transparent;
+  .containerDetailsEpisodios {
+    margin-top: 17px;
+    ul {
+      max-height: 40vh;
+      overflow: auto;
+      width:50vw;
+
+      ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(
+        rgba(11, 144, 173, 0.5) 29.28%,
+        rgba(140, 23, 181, 0.5) 68.34%
+      );
+      border-radius: 15px;
+    }
+      li {
+        display: flex;
+        margin-left: 80px;
+        h1 {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 29px;
+
+          color: #ffffff;
         }
+        h2 {
+          width: 395px;
+          height: 60px;
+          overflow: hidden;
+          font-family: "Nunito";
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 19px;
 
-        #positivo{
-          border-radius: 4px;
-          background-image: linear-gradient(
-            -39.31deg,
-            rgba(140, 23, 181, 0.5),
-            rgba(11, 144, 173, 0.5),
-            #560bad,
-            #b5179e
-            ) ;
-            background-size: 300%;
-            background-position: left;
-            background-color: red;
+          color: #ffffff;
+          p {
+            font-size: 12px;
+            margin-top: 8px;
           }
-          
+        }
+        img {
+          width: 108px;
+          height: 60px;
+          border-radius: 5px;
+          margin-left: 30px;
+          margin-bottom: 20px;
+          margin-right: 47px;
         }
       }
-
-      h1{
-        color:#fff;
-      }
-  
+    }
+  }
 `;

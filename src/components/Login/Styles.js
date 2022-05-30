@@ -5,7 +5,6 @@ export const SectionLogin = styled.section`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 100vw;
   background: conic-gradient(
     from 178.82deg at 50% 50%,
     #b217b5 -58.12deg,

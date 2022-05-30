@@ -57,4 +57,27 @@ export const SectionNotFound = styled.section`
       }
     }
   }
+
+  @media (max-width: 1000px) {
+    main{
+      flex-direction:column;
+      margin-top:0px;
+      align-items:center;
+
+      .textLeft{
+        margin-top:20px;
+        margin-left:10px;
+        h1,p{
+          line-height:29px;
+          font-size:1.3rem;
+        }
+      }
+      .found404 {
+        img {
+          width: 300px;
+          margin-top:20px;
+        }
+      }
+    }
+  }
 `;

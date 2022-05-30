@@ -13,6 +13,11 @@ export function MOVIES_MENU(name) {
   };
 }
 
+export function EPSODIOS_SEASON(id,numberSeason){
+  return {
+    url: `${API_URL}tv/${id}/season/${numberSeason}?api_key=${API_KEY}&language=en-US`
+  }
+}
 
 /*
 01 = Vai retornar nome do episódio, numero do episódio, sinopse, foto, season do episódio, temporada. Você vai ter que passar sua key, NUMERO da season que você quer e id da série.

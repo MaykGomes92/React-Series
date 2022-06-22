@@ -37,5 +37,7 @@ Consegui explorar ao máximo a Api e tudo que ela oferecia, fazendo também um m
 ## Extra - Menu Search para pesquisa de série.
 ![image](https://user-images.githubusercontent.com/77819811/171062688-50f9fb53-35b8-4ec4-ae54-966280c7eaae.png)
 
+- [ ] Deixar a route detalhes da série responsiva.
+
 ##
 <a href="https://www.linkedin.com/in/mayk-gomes-11b86222b/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/><a/>
